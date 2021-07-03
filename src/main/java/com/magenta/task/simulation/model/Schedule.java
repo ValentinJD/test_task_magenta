@@ -9,9 +9,13 @@ import java.util.List;
 @Data
 public class Schedule {
 
-    private final List<TimeWindow> timeWindowList = new ArrayList<>(); //порядок объезда заказов
+    private final List<Work> workList = new ArrayList<>(); //список работ
 
-    private final LocalTime timeGoToDC; // время выезда в депо
+    private final LocalTime timeGoToOutDC; // время выезда из депо
 
     private final LocalTime timeToReturnInDC; // время возвращения в депо
+
+    public void addWork(Work work) {
+        workList.add(work);
+    }
 }
