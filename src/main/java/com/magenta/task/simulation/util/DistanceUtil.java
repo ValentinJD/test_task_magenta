@@ -1,5 +1,7 @@
 package com.magenta.task.simulation.util;
 
+import com.magenta.task.simulation.model.PointInMap;
+
 public class DistanceUtil {
 
     private static final double RADIUS_EARTH = 6371.0086;
@@ -18,5 +20,9 @@ public class DistanceUtil {
                 ));
 
         return d;
+    }
+
+    public static double calculate(PointInMap point1, PointInMap point2) {
+        return calculate(point1.getLatitude(), point1.getLongitude(), point2.getLatitude(), point2.getLongitude());
     }
 }
