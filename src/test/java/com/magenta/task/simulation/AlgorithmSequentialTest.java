@@ -13,7 +13,7 @@ import java.time.LocalTime;
 class AlgorithmSequentialTest {
 
     @Autowired
-    SimulationAlgorithmSequential algorithmSequential;
+    SimulationAlgorithm algorithmSequential;
 
     @Test
     void simulate() {
