@@ -27,13 +27,13 @@ public class ScheduleData {
 
     public static final Work WORK2 = new Work(LocalTime.of(12, 0), LocalTime.of(12, 20));
 
-    public static final Work WORK3 = new Work(LocalTime.of(13, 20), LocalTime.of(13, 40));
+    public static final Work WORK3 = new Work(LocalTime.of(13, 19), LocalTime.of(13, 39));
 
     public static final Schedule SCHEDULE = new Schedule( );
 
     static {
         SCHEDULE.setTimeGoToOutDC(LocalTime.of(9, 0));
-        SCHEDULE.setTimeToReturnInDC(LocalTime.of(14, 28));
+        SCHEDULE.setTimeToReturnInDC(LocalTime.of(14, 27));
         SCHEDULE.addWork(WORK1);
         SCHEDULE.addWork(WORK2);
         SCHEDULE.addWork(WORK3);
@@ -60,4 +60,35 @@ public class ScheduleData {
         return ORDER_LIST;
     }
 
+    public static final int DISTANCE_DC_POINT1 = 10; // км
+
+    public static final int DRIVING_TIME_DC_POINT1 = 59; // мин
+
+    public static final int TIME_TO_LOADING_THIS_FLIGHT = 60; // мин
+
+    public static final LocalTime TIME_START_1_TIME_WINDOW = LocalTime.of(10, 0);
+
+    public static final LocalTime TIME_START_WORK_DC = LocalTime.of(8, 0);
+
+    public static final LocalTime TIME_TO_START_LOADING_THIS_FLIGHT = LocalTime.of(8, 1);
+
+    public static final LocalTime TIME_GO_TO_OUT_DC = LocalTime.of(9, 1);
+
+    public static final LocalTime TIME_TO_START_UNLOADING_FIRST_ORDER = LocalTime.of(10, 0);
+
+    public static final int TIME_TO_UNLOADING_FIRST_ORDER = 20;
+
+    public static final LocalTime TIME_TO_END_UNLOADING_FIRST_ORDER = LocalTime.of(10, 20);
+
+    public static final LocalTime TIME_TO_START_UNLOADING_PREVIOUS_ORDER = LocalTime.of(10, 20);
+
+    public static final int DRIVING_TIME_DC_POINT2 = 60; // мин
+
+    public static final LocalTime TIME_START_2_TIME_WINDOW = LocalTime.of(12, 0);
+
+    public static final LocalTime TIME_TO_START_UNLOADING_ORDER = LocalTime.of(12, 0);
+
+    public static final int TIME_TO_UNLOADING_CURRENT_ORDER = 20;
+
+    public static final LocalTime TIME_TO_END_UNLOADING_CURRENT_ORDER = LocalTime.of(12, 20);
 }

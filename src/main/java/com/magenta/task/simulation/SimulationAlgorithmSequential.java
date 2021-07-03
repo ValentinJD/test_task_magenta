@@ -1,9 +1,7 @@
 package com.magenta.task.simulation;
 
-import com.magenta.task.simulation.model.Order;
-import com.magenta.task.simulation.model.Resource;
-import com.magenta.task.simulation.model.Schedule;
-import com.magenta.task.simulation.model.Work;
+import com.magenta.task.simulation.model.*;
+import com.magenta.task.simulation.util.DistanceUtil;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
@@ -22,6 +20,8 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
         return schedule;
     }
 
+
+
     /*
      * Описание алгоритма
      * 1. Определяем время движения от распр. центра до первого клиента Тдв.1
@@ -36,8 +36,8 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
      * Да
      * Время начала загрузки заказов данного рейса определено Тнач. заг.
      * Определяем время в пути Т пути
-     * Определяем время начала разгрузки заказа Тнач.разгр = Тнач.загр. в р.ц. + Т пути
-     * Определяем время окончания разгрузки заказа Тнач.разгр = Тнач.загр. в р.ц. + Т пути
+     * Определяем время начала разгрузки заказа у клиента Тнач.разгр = Твыезда из р.ц. + Т пути
+     * Определяем время окончания разгрузки заказа у клиента Тнач.разгр = Тнач.разгр. у клиента + Т разгрузки
      * Условие Еще есть заказы ?
      * Нет возвращаем результат
      * Да
@@ -46,7 +46,7 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
      * Условие Тнач.разгр < Т нач. окна
      * Нет
      * Тнач.разгр  определено
-     *Определяем время окончания разгрузки заказа Токонч.разгр = Токонч. разгр. пред. заказа  + Т пути
+     * Определяем время окончания разгрузки заказа Токонч.разгр = Тначал. разгр.   + Т разгрузки
      * ДА
      * Тнач.разгр = Т нач. окна
      * Условие Еще есть заказы ?
