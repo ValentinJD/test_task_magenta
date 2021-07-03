@@ -1,15 +1,25 @@
 package com.magenta.task.simulation;
 
+import com.magenta.task.simulation.model.Order;
+import com.magenta.task.simulation.model.Resource;
 import com.magenta.task.simulation.model.Schedule;
 import com.magenta.task.simulation.model.Work;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
 import java.util.List;
 
-public class AlgorithmSequential implements SimulationAlgorithm {
+@Component
+public class SimulationAlgorithmSequential implements SimulationAlgorithm {
 
     @Override
-    public Schedule simulate(List<Work> workList) {
-        return null;
+    public Schedule simulate(List<Order> orderList, Resource resource, LocalTime startWorkDC, LocalTime endWorkDC) {
+        Schedule schedule = new Schedule();
+
+        schedule.addWork(new Work(LocalTime.of(1,0), LocalTime.of(2,0)));
+        schedule.addWork(new Work(LocalTime.of(1,0), LocalTime.of(2,0)));
+        schedule.addWork(new Work(LocalTime.of(1,0), LocalTime.of(2,0)));
+        return schedule;
     }
 
     /*
