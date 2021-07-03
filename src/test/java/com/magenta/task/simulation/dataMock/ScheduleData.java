@@ -3,6 +3,9 @@ package com.magenta.task.simulation.dataMock;
 import com.magenta.task.simulation.model.*;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ScheduleData {
     // Депо Минская 25
@@ -26,9 +29,11 @@ public class ScheduleData {
 
     public static final Work WORK3 = new Work(LocalTime.of(13, 20), LocalTime.of(13, 40));
 
-    public static final Schedule SCHEDULE = new Schedule(LocalTime.of(9, 0), LocalTime.of(14, 28));
+    public static final Schedule SCHEDULE = new Schedule( );
 
     static {
+        SCHEDULE.setTimeGoToOutDC(LocalTime.of(9, 0));
+        SCHEDULE.setTimeToReturnInDC(LocalTime.of(14, 28));
         SCHEDULE.addWork(WORK1);
         SCHEDULE.addWork(WORK2);
         SCHEDULE.addWork(WORK3);
@@ -40,5 +45,19 @@ public class ScheduleData {
 
     public final static Order ORDER3 = new Order(POINT3, 10, TIME_WINDOW3, 20, 20);
 
+
+    public final static List<Order> ORDER_LIST = new ArrayList<>();
+
+    static {
+        ORDER_LIST.add(ORDER1);
+        ORDER_LIST.add(ORDER2);
+        ORDER_LIST.add(ORDER3);
+    }
+
     public final static Resource UAZ_452 = new Resource(10, 40);
+
+    public static List<Order> getOrders() {
+        return ORDER_LIST;
+    }
+
 }
