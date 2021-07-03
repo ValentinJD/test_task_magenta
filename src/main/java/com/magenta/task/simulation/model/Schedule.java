@@ -11,9 +11,9 @@ public class Schedule {
 
     private final List<Work> workList = new ArrayList<>(); //список работ
 
-    private final LocalTime timeGoToOutDC; // время выезда из депо
+    private LocalTime timeGoToOutDC; // время выезда из депо
 
-    private final LocalTime timeToReturnInDC; // время возвращения в депо
+    private LocalTime timeToReturnInDC; // время возвращения в депо
 
     public void addWork(Work work) {
         workList.add(work);
