@@ -25,4 +25,7 @@ public class DistanceUtil {
     public static double calculate(PointInMap point1, PointInMap point2) {
         return calculate(point1.getLatitude(), point1.getLongitude(), point2.getLatitude(), point2.getLongitude());
     }
+
+
+
 }

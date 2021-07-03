@@ -29,7 +29,7 @@ class DistanceUtilTest {
 
         long actual = Math.round(actualDouble);
 
-        long expected = 10;
+        long expected = ScheduleData.DISTANCE_DC_POINT1;
 
         Assertions.assertEquals(expected, actual);
 
