@@ -17,3 +17,7 @@
 Визуальное представление тестовых данных resources/static/timeSchedule.jpg
 
 Блок схема алгоритма resources/static/schemeAlgorithm.jpg
+
+Также можно запустить метод main() класса TaskApplication посмотреть результаты логирования
+в консоли.
+

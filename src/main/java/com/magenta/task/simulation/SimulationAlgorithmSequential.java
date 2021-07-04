@@ -30,7 +30,7 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
     // Метод симуляции возвращает расписание работ для ресурса
     @Override
     public Schedule simulate(List<Order> orderList, Resource resource, DistributionCenter DC) {
-        LOG.info("simulate start {}", LocalTime.now());
+        System.out.printf("\n simulate start %s \n ", LocalTime.now());
         Schedule schedule = new Schedule();
 
         // Вычисляем время выезда из распределительного центра
@@ -72,7 +72,10 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
                     currentOrder.getTimeForUnloading());
 
             Work work = new Work(timeStartUnloadingOrder, timeEndUnloadingOrder);
-            LOG.info("Время начала и окончания работы по заказу {}", work);
+            System.out.printf("\n Время в пути %d (мин)\n ", drivingTime);
+            System.out.printf("\n Время начала разгрузки у клиента %s\n ", work.getTimeToStart());
+            System.out.printf("\n Продолжительность разгрузки у клиента %s (мин)\n ", currentOrder.getLoadingTime());
+            System.out.printf("\n Время окончания разгрузки у клиента %s\n ", work.getTimeToFinish());
             schedule.addWork(work);
 
             previousOrder = currentOrder;
@@ -80,7 +83,7 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
 
         // Определяем время возвращения в распределительный центр DC
         setTimeReturnToDC(resource, orderList, schedule);
-        LOG.info("simulate finish {}", LocalTime.now());
+        System.out.printf("\n simulate finish %s\n", LocalTime.now());
         return schedule;
     }
 
@@ -100,9 +103,13 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
                 CalcTimeUtil.calcTimeToStartLoadingThisFlight(firstOrder.getTimeWindow().getStart(), timeToLoadingThisFlight,
                         startWorkDC, calcDrivingTime);
 
+        System.out.printf("\n Начало загрузки заказов в распределительном центре  %s\n ", timeToStartLoadingThisFlight);
+        System.out.printf("\n Продолжительность загрузки заказов в распределительном центре  %s (мин)\n ", timeToLoadingThisFlight);
         // Время выезда из распределительного центра
         LocalTime timeGoToOutDC = CalcTimeUtil.calcTimeGoToOutDC(timeToStartLoadingThisFlight, timeToLoadingThisFlight);
-        LOG.info("Время выезда из распределительного центра {}", timeGoToOutDC);
+
+        System.out.printf("\n Время выезда из распределительного центра %s\n ", timeGoToOutDC);
+        System.out.printf("\n Время в пути %s (мин)\n ", calcDrivingTime);
         schedule.setTimeGoToOutDC(timeGoToOutDC);
 
     }
@@ -118,7 +125,10 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
         // Время возвращения в распределительный центр
         LocalTime timeToReturnInDC = CalcTimeUtil.calcTimeToReturnInDC(workList.get(workList.size() - 1).getTimeToFinish(),
                 drivingTimeFormOrderToDC);
-        LOG.info("Время возвращения в распределительный центр {}", timeToReturnInDC);
+        System.out.printf("\n Время в пути %d (мин)\n ", drivingTimeFormOrderToDC);
+
+        System.out.printf("\n Время возвращения в распределительный центр %s\n ", timeToReturnInDC);
+
         schedule.setTimeToReturnInDC(timeToReturnInDC);
     }
 
@@ -139,7 +149,9 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
                 firsOrder.getTimeForUnloading());
 
         Work work = new Work(timeToStartUnloadingFirstOrder, timeToEndUnloadingFirstOrder);
-        LOG.info("Время работы по первому заказу {}", work);
+        System.out.printf("\n Время начала  работы по  заказу номер %d %s\n ", 1, work.getTimeToStart());
+        System.out.printf("\n Продолжительность разгрузки заказа %s (мин)\n ", orderList.get(0).getLoadingTime());
+        System.out.printf("\n Время окончания работы по заказу номер %d %s\n ", 1, work.getTimeToFinish());
         schedule.addWork(work);
     }
 }
