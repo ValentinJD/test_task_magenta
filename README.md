@@ -1,5 +1,4 @@
-# test_task_magenta
-Test task for vacancy algorithmist
+# Тестовое задание
 
 Реализацией алгоритма задачи "Симуляция" является класс SimulationAlgorithmSequential.
 
@@ -14,3 +13,7 @@ Test task for vacancy algorithmist
 Методы расчета расписания CalcTimeUtil
 
 Запуск тестов mvn clean test
+
+Визуальное представление тестовых данных resources/static/timeSchedule.jpg
+
+Блок схема алгоритма resources/static/schemeAlgorithm.jpg
