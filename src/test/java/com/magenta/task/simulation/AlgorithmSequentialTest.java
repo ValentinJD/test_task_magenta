@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalTime;
-
 @SpringBootTest
 class AlgorithmSequentialTest {
 
@@ -18,7 +16,7 @@ class AlgorithmSequentialTest {
     @Test
     void simulate() {
         Schedule actual = algorithmSequential.simulate(ScheduleData.getOrders(), ScheduleData.UAZ_452,
-                LocalTime.of(8,0), LocalTime.of(22,0));
+                ScheduleData.DISTRIBUTION_CENTER);
 
         Schedule expected = ScheduleData.SCHEDULE;
 
