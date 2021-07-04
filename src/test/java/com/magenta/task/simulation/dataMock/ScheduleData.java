@@ -21,7 +21,7 @@ public class ScheduleData {
 
     public static final TimeWindow TIME_WINDOW2 = new TimeWindow(LocalTime.of(12, 0), LocalTime.of(13, 0));
 
-    public static final TimeWindow TIME_WINDOW3 = new TimeWindow(LocalTime.of(15, 0), LocalTime.of(18, 0));
+    public static final TimeWindow TIME_WINDOW3 = new TimeWindow(LocalTime.of(13, 0), LocalTime.of(18, 0));
 
     public static final Work WORK1 = new Work(LocalTime.of(10, 0), LocalTime.of(10, 20));
 
@@ -32,7 +32,7 @@ public class ScheduleData {
     public static final Schedule SCHEDULE = new Schedule( );
 
     static {
-        SCHEDULE.setTimeGoToOutDC(LocalTime.of(9, 0));
+        SCHEDULE.setTimeGoToOutDC(LocalTime.of(9, 1));
         SCHEDULE.setTimeToReturnInDC(LocalTime.of(14, 27));
         SCHEDULE.addWork(WORK1);
         SCHEDULE.addWork(WORK2);
@@ -91,4 +91,8 @@ public class ScheduleData {
     public static final int TIME_TO_UNLOADING_CURRENT_ORDER = 20;
 
     public static final LocalTime TIME_TO_END_UNLOADING_CURRENT_ORDER = LocalTime.of(12, 20);
+
+    public static final LocalTime TIME_TO_RETURN_IN_DC = LocalTime.of(13, 19);
+
+
 }
