@@ -2,6 +2,7 @@ package com.magenta.task.simulation.model;
 
 import lombok.Data;
 
+// Координаты
 @Data
 public class PointInMap {
 

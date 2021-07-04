@@ -6,50 +6,64 @@ import com.magenta.task.simulation.util.CalcTimeUtil;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
+// Реализация алгоритма симуляции
+// Последовательное вычисление
 @Component
 public class SimulationAlgorithmSequential implements SimulationAlgorithm {
 
+    // Координаты распределительного центра
     private final PointInMap pointDC = new PointInMap(53.232244, 50.250508);
+    private final TimeWindow timeWindow = new TimeWindow(LocalTime.of(8, 0),
+            LocalTime.of(22, 0));
+    private final Resource resource = new Resource(10, 40);
+    private final DistributionCenter DC = new DistributionCenter(pointDC, timeWindow);
 
+    {
+        DC.addResource(resource);
+    }
 
+    // Метод симуляции возвращает расписание работ для ресурса
     @Override
-    public Schedule simulate(List<Order> orderList, Resource resource, LocalTime startWorkDC, LocalTime endWorkDC) {
+    public Schedule simulate(List<Order> orderList, Resource resource, DistributionCenter DC) {
         Schedule schedule = new Schedule();
 
-        // устанавливаем время выезда из распределительного центра
-        setTimeGoToOutDC(schedule, orderList, resource, startWorkDC);
+        // Вычисляем время выезда из распределительного центра
+        setTimeGoToOutDC(schedule, orderList, resource, DC.getTimeWindowDC().getStart());
 
         if (orderList.size() != 0) {
-            // устанавливаем работу по первому заказу
+            // Определяем работу по первому заказу
             setFirstWork(orderList, resource, schedule);
         } else {
             throw new EmptyOrderException("Empty list orders");
         }
 
         if (orderList.size() == 1) {
-            // устанавливаем время возращения в распределительный центр
+            // Устанавливаем время возращения в распределительный центр
             setTimeReturnToDC(resource, orderList, schedule);
 
             return schedule;
         }
+
         Order previousOrder = orderList.get(0);
+
         // Вычисляем время начала и окончания остальных заказов
         for (int i = 1; i < orderList.size(); i++) {
 
-
             Order currentOrder = orderList.get(i);
 
+            // Время в пути от предыдущего заказа до текущего
             int drivingTime = CalcTimeUtil.calcDrivingTime(resource, previousOrder.getPointInMap(),
                     currentOrder.getPointInMap());
 
             List<Work> workList = schedule.getWorkList();
 
+            // Время начала разгрузки заказа
             LocalTime timeStartUnloadingOrder = CalcTimeUtil.calcTimeToStartUnloadingOrder(
-                    currentOrder.getTimeWindow().getStart(), workList.get(i-1).getTimeToFinish(), drivingTime);
+                    currentOrder.getTimeWindow().getStart(), workList.get(i - 1).getTimeToFinish(), drivingTime);
 
+            // Время окончания разгрузки заказа
             LocalTime timeEndUnloadingOrder = CalcTimeUtil.calcTimeToEndUnloadingOrder(timeStartUnloadingOrder,
                     currentOrder.getTimeForUnloading());
 
@@ -60,54 +74,63 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
             previousOrder = currentOrder;
         }
 
+        // Определяем время возвращения в распределительный центр DC
         setTimeReturnToDC(resource, orderList, schedule);
 
         return schedule;
     }
 
-
+    // Определяем время выезда из расределительного центра
     public void setTimeGoToOutDC(Schedule schedule, List<Order> orderList, Resource resource, LocalTime startWorkDC) {
 
+        // Время загрузки всех заказов данного рейса
         int timeToLoadingThisFlight = CalcTimeUtil.calcTimeToLoadingThisFlight(orderList);
 
         Order firstOrder = orderList.get(0);
 
-        int calcDrivingTime = CalcTimeUtil.calcDrivingTime(resource, pointDC, firstOrder.getPointInMap());
+        // Время в пути от распределительного центра до первого заказа
+        int calcDrivingTime = CalcTimeUtil.calcDrivingTime(resource, DC.getCoordinates(), firstOrder.getPointInMap());
 
+        // Время начала загрузки в распределительном центре DC
         LocalTime timeToStartLoadingThisFlight =
                 CalcTimeUtil.calcTimeToStartLoadingThisFlight(firstOrder.getTimeWindow().getStart(), timeToLoadingThisFlight,
                         startWorkDC, calcDrivingTime);
 
+        // Время выезда из распределительного центра
         LocalTime timeGoToOutDC = CalcTimeUtil.calcTimeGoToOutDC(timeToStartLoadingThisFlight, timeToLoadingThisFlight);
 
         schedule.setTimeGoToOutDC(timeGoToOutDC);
 
     }
 
+    // Определяем время выезда в распределительный центр
     public void setTimeReturnToDC(Resource resource, List<Order> orderList, Schedule schedule) {
         List<Work> workList = schedule.getWorkList();
 
-        int drivingTimeFormOrderToDC = CalcTimeUtil.calcDrivingTime(resource, orderList.get(orderList.size()-1).getPointInMap(), pointDC);
+        // Время в пути от последнего заказа до распределительного центра
+        int drivingTimeFormOrderToDC = CalcTimeUtil.calcDrivingTime(resource,
+                orderList.get(orderList.size() - 1).getPointInMap(), DC.getCoordinates());
 
-
-
-        LocalTime timeToReturnInDC = CalcTimeUtil.calcTimeToReturnInDC(workList.get(workList.size()-1).getTimeToFinish(),
+        // Время возвращения в распределительный центр
+        LocalTime timeToReturnInDC = CalcTimeUtil.calcTimeToReturnInDC(workList.get(workList.size() - 1).getTimeToFinish(),
                 drivingTimeFormOrderToDC);
 
         schedule.setTimeToReturnInDC(timeToReturnInDC);
     }
 
+    // Определяем время выполненмя первого заказа
     public void setFirstWork(List<Order> orderList, Resource resource, Schedule schedule) {
-
 
         Order firsOrder = orderList.get(0);
 
-        int drivingTime = CalcTimeUtil.calcDrivingTime(resource, pointDC, firsOrder.getPointInMap());
+        // Время в пути от распределительного центра до первого заказа
+        int drivingTime = CalcTimeUtil.calcDrivingTime(resource, DC.getCoordinates(), firsOrder.getPointInMap());
 
-        // рассчитываем время начала погрузки первого клиента
+        // Время начала разгрузки первого заказа
         LocalTime timeToStartUnloadingFirstOrder = CalcTimeUtil.calcTimeToStartUnloadingFirstOrder(
                 schedule.getTimeGoToOutDC(), drivingTime);
 
+        // Время окончания разгрузки первого заказа
         LocalTime timeToEndUnloadingFirstOrder = CalcTimeUtil.calcTimeToEndUnloadingFirstOrder(timeToStartUnloadingFirstOrder,
                 firsOrder.getTimeForUnloading());
 
@@ -115,46 +138,4 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
 
         schedule.addWork(work);
     }
-
-
-
-
-
-
-
-    /*
-     * Описание алгоритма
-      1. Определяем время движения от распр. центра до первого клиента Тдв.1
-      2. Определяем суммарное время загрузки заказов данного рейса. Тсум.
-      3. Определяем время начала загрузки заказов данного рейса
-      Тнач. заг. = Тнач.1окна - Тсум. - Тдв.1
-      Условие
-      Tнач.р.см. < Тнач.заг
-      Нет
-      Устанавливаем время начала загрузки заказов данного рейса
-      Тнач. заг. = Тнач. раб. распрд. центра
-      Да
-      Время начала загрузки заказов данного рейса определено Тнач. заг.
-      Определяем время в пути Т пути
-
-      Определяем время начала разгрузки заказа у клиента Тнач.разгр = Твыезда из р.ц. + Т пути 1-й заказ
-      Определяем время окончания разгрузки 1-го заказа у клиента Тнач.разгр = Тнач.разгр. у клиента + Т разгрузки
-      Условие Еще есть заказы ?
-      Нет возвращаем результат
-
-     * Да
-     * Определяем время в пути Т пути
-     * т. 1 Определяем время начала разгрузки заказа Тнач.разгр = Токонч. разгр. пред. заказа  + Т пути
-     * Условие Тнач.разгр < Т нач. окна
-     * Нет
-     * Тнач.разгр  определено
-     * Определяем время окончания разгрузки заказа Токонч.разгр = Тначал. разгр.   + Т разгрузки
-     * ДА
-     * Тнач.разгр = Т нач. окна
-     * Условие Еще есть заказы ?
-     * Да возвращаемся в т.1
-     * Нет
-     * Определяем время возвращения в распрд. центр
-     * Твозвр.в р.ц. = Токонч. разгр. пред. заказа  + Т пути
-     * Возвращаем результат     * */
 }

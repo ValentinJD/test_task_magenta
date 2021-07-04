@@ -2,6 +2,7 @@ package com.magenta.task.simulation.model;
 
 import lombok.Data;
 
+// Заказ
 @Data
 public class Order {
 

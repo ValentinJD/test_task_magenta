@@ -4,9 +4,7 @@ import com.magenta.task.simulation.dataMock.DistanceData;
 import com.magenta.task.simulation.dataMock.ScheduleData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class DistanceUtilTest {
 
     @Test

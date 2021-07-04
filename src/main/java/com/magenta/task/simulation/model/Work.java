@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalTime;
 
+// Работа
 @Data
 public class Work {
 

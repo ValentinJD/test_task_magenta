@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalTime;
 
+// Временное окно доступности
 @Data
 public class TimeWindow {
 
