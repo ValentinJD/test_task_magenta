@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CalcTimeUtilTest {
 
     @Test
@@ -64,7 +62,7 @@ class CalcTimeUtilTest {
     @Test
     void calcTimeToStartUnloadingOrder() {
         LocalTime actTime = CalcTimeUtil.calcTimeToStartUnloadingOrder(ScheduleData.TIME_START_2_TIME_WINDOW,
-                ScheduleData.TIME_TO_END_UNLOADING_FIRST_ORDER, ScheduleData.DRIVING_TIME_DC_POINT2
+                ScheduleData.TIME_TO_END_UNLOADING_FIRST_ORDER, ScheduleData.DRIVING_TIME_POINT1_POINT2
         );
         LocalTime expTime = ScheduleData.TIME_TO_START_UNLOADING_ORDER;
         Assertions.assertEquals(expTime, actTime);
@@ -76,6 +74,15 @@ class CalcTimeUtilTest {
                 ScheduleData.TIME_TO_START_UNLOADING_ORDER, ScheduleData.TIME_TO_UNLOADING_CURRENT_ORDER
         );
         LocalTime expTime = ScheduleData.TIME_TO_END_UNLOADING_CURRENT_ORDER;
+        Assertions.assertEquals(expTime, actTime);
+    }
+
+    @Test
+    void calcTimeToReturnInDC() {
+        LocalTime actTime = CalcTimeUtil.calcTimeToReturnInDC(
+                ScheduleData.TIME_TO_END_UNLOADING_CURRENT_ORDER, ScheduleData.DRIVING_TIME_POINT3_DC
+        );
+        LocalTime expTime = ScheduleData.TIME_TO_RETURN_IN_DC;
         Assertions.assertEquals(expTime, actTime);
     }
 
