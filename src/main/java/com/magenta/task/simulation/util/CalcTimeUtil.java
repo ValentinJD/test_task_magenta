@@ -42,6 +42,7 @@ public class CalcTimeUtil {
 
         return timeToStartLoadingThisFlight.plusMinutes(timeToLoadingThisFlight);
     }
+    //public LocalTime calcTimeGoToOutDC(Order firstOrder, Resource resource, int timeToLoadingThisFlight, LocalTime startWorkDC)
 
     //Определяем время начала разгрузки заказа Тнач.разгр = Тнач.выезда из DC + Т пути
     public static LocalTime calcTimeToStartUnloadingFirstOrder(LocalTime timeStartOutDC, int drivingTime) {
@@ -53,7 +54,7 @@ public class CalcTimeUtil {
         return timeToStartUnloadingFirstOrder.plusMinutes(timeUnloading);
     }
 
-    //т. 1 Определяем время начала разгрузки заказа Тнач.разгр = Токонч. разгр. пред. заказа  + Т пути
+    //Определяем время начала разгрузки заказа Тнач.разгр = Токонч. разгр. пред. заказа  + Т пути
     public static LocalTime calcTimeToStartUnloadingOrder(LocalTime timeStartCurrentTimeWindow,
                                                           LocalTime timeToEndUnloadingPreviousOrder,
                                                           int timeDrivingToOrder) {
@@ -64,5 +65,10 @@ public class CalcTimeUtil {
     //Определяем время окончания разгрузки заказа у клиента Токонч.разгр = Тнач.разгр. у клиента + Т разгрузки
     public static LocalTime calcTimeToEndUnloadingOrder(LocalTime timeToStartUnloadingCurrentOrder, int timeUnloading) {
         return timeToStartUnloadingCurrentOrder.plusMinutes(timeUnloading);
+    }
+
+    //Определяем время возвращения в распред. центр
+    public static LocalTime calcTimeToReturnInDC(LocalTime timeToEndUnloadingCurrentOrder, int drivingTime) {
+        return timeToEndUnloadingCurrentOrder.plusMinutes(drivingTime);
     }
 }
