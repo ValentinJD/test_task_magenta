@@ -3,6 +3,8 @@ package com.magenta.task.simulation;
 import com.magenta.task.simulation.exception.EmptyOrderException;
 import com.magenta.task.simulation.model.*;
 import com.magenta.task.simulation.util.CalcTimeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
@@ -12,6 +14,7 @@ import java.util.List;
 // Последовательное вычисление
 @Component
 public class SimulationAlgorithmSequential implements SimulationAlgorithm {
+    protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
     // Координаты распределительного центра
     private final PointInMap pointDC = new PointInMap(53.232244, 50.250508);
@@ -27,6 +30,7 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
     // Метод симуляции возвращает расписание работ для ресурса
     @Override
     public Schedule simulate(List<Order> orderList, Resource resource, DistributionCenter DC) {
+        LOG.info("simulate start {}", LocalTime.now());
         Schedule schedule = new Schedule();
 
         // Вычисляем время выезда из распределительного центра
@@ -68,7 +72,7 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
                     currentOrder.getTimeForUnloading());
 
             Work work = new Work(timeStartUnloadingOrder, timeEndUnloadingOrder);
-
+            LOG.info("Время начала и окончания работы по заказу {}", work);
             schedule.addWork(work);
 
             previousOrder = currentOrder;
@@ -76,11 +80,11 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
 
         // Определяем время возвращения в распределительный центр DC
         setTimeReturnToDC(resource, orderList, schedule);
-
+        LOG.info("simulate finish {}", LocalTime.now());
         return schedule;
     }
 
-    // Определяем время выезда из расределительного центра
+    // Определяем время выезда из распределительного центра
     public void setTimeGoToOutDC(Schedule schedule, List<Order> orderList, Resource resource, LocalTime startWorkDC) {
 
         // Время загрузки всех заказов данного рейса
@@ -98,7 +102,7 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
 
         // Время выезда из распределительного центра
         LocalTime timeGoToOutDC = CalcTimeUtil.calcTimeGoToOutDC(timeToStartLoadingThisFlight, timeToLoadingThisFlight);
-
+        LOG.info("Время выезда из распределительного центра {}", timeGoToOutDC);
         schedule.setTimeGoToOutDC(timeGoToOutDC);
 
     }
@@ -114,11 +118,11 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
         // Время возвращения в распределительный центр
         LocalTime timeToReturnInDC = CalcTimeUtil.calcTimeToReturnInDC(workList.get(workList.size() - 1).getTimeToFinish(),
                 drivingTimeFormOrderToDC);
-
+        LOG.info("Время возвращения в распределительный центр {}", timeToReturnInDC);
         schedule.setTimeToReturnInDC(timeToReturnInDC);
     }
 
-    // Определяем время выполненмя первого заказа
+    // Определяем время выполнения первого заказа
     public void setFirstWork(List<Order> orderList, Resource resource, Schedule schedule) {
 
         Order firsOrder = orderList.get(0);
@@ -135,7 +139,7 @@ public class SimulationAlgorithmSequential implements SimulationAlgorithm {
                 firsOrder.getTimeForUnloading());
 
         Work work = new Work(timeToStartUnloadingFirstOrder, timeToEndUnloadingFirstOrder);
-
+        LOG.info("Время работы по первому заказу {}", work);
         schedule.addWork(work);
     }
 }
