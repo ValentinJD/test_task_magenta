@@ -3,13 +3,16 @@ package com.magenta.task;
 import com.magenta.task.simulation.SimulationAlgorithm;
 import com.magenta.task.simulation.SimulationAlgorithmSequential;
 import com.magenta.task.simulation.model.*;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
+@EnableCaching
 public class TaskApplication {
 
     // Депо Самара, Минская 25
@@ -58,6 +61,7 @@ public class TaskApplication {
     }
 
     public static void main(String[] args) {
+        SpringApplication.run(TaskApplication.class, args);
 
         SimulationAlgorithm simulationAlgorithm = new SimulationAlgorithmSequential();
 
