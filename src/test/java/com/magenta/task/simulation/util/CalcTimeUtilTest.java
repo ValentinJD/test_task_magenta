@@ -80,7 +80,7 @@ class CalcTimeUtilTest {
     @Test
     void calcTimeToReturnInDC() {
         LocalTime actTime = CalcTimeUtil.calcTimeToReturnInDC(
-                ScheduleData.TIME_TO_END_UNLOADING_CURRENT_ORDER, ScheduleData.DRIVING_TIME_POINT3_DC
+                ScheduleData.TIME_TO_END_UNLOADING_LAST_ORDER, ScheduleData.DRIVING_TIME_POINT3_DC
         );
         LocalTime expTime = ScheduleData.TIME_TO_RETURN_IN_DC;
         Assertions.assertEquals(expTime, actTime);

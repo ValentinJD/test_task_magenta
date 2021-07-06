@@ -13,13 +13,14 @@ import java.util.List;
 public class TaskApplication {
 
     // Депо Самара, Минская 25
-    public final static PointInMap DC = new PointInMap(53.232244, 50.250508);
+    public final static PointInMap DC = new PointInMap(53.232086357168356, 50.2504762918857); // 53.232086357168356, 50.2504762918857
     // Первый заказ Самара, ул. Ульяновская ул. Садовая
     public final static PointInMap POINT1 = new PointInMap(53.198343, 50.111600);
     // Второй заказ Самара, ул. Кабельная 7а
     public final static PointInMap POINT2 = new PointInMap(53.188697, 50.262046);
-    // Третий заказ Самара, ул. Смышляевское шоссе
-    public final static PointInMap POINT3 = new PointInMap(53.251370, 50.368399);
+    // Третий заказ Самара, ул. Смышляевское шоссе ул. Аэропорт 2, 1-7, Самара, Самарская обл., 443046
+    public final static PointInMap POINT3 = new PointInMap(53.25152887005768, 50.3748212627859);
+
 
     // Временные окна соответствующих заказов
     public static final TimeWindow TIME_WINDOW1 = new TimeWindow(LocalTime.of(10, 0), LocalTime.of(11, 0));
@@ -43,7 +44,7 @@ public class TaskApplication {
     }
 
     // Ресурс УАЗ-452 скорость движения 10 км/ч вместимость 40 кг
-    public final static Resource UAZ_452 = new Resource(10, 40);
+    public final static Resource UAZ_452 = new Resource(20, 40);
 
     // Время работы
     public static final TimeWindow timeWindow = new TimeWindow(LocalTime.of(8, 0),
