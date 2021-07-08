@@ -1,4 +1,4 @@
-package com.magenta.task.simulation;
+package com.magenta.task.config.spring;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableCaching
-public class CachingConfig {
+public class CacheConfig {
     @Bean
     public CacheManager cacheManager() {
         return new ConcurrentMapCacheManager("distance");

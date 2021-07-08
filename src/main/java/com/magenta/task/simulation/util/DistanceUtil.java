@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 public class DistanceUtil {
 
     public static double calculate(PointInMap point1, PointInMap point2) {
-        final Logger logger = Logger.getLogger(DistanceUtil.class.getName());
-        logger.info("calculate ");
         return getDistanceInKiloMeters(point1, point2);
     }
 

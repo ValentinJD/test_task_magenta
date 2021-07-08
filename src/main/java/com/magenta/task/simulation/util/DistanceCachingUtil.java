@@ -7,12 +7,16 @@ import org.springframework.stereotype.Component;
 import java.util.logging.Logger;
 
 @Component
-public class DistanceCachingUtil2 {
+public class DistanceCachingUtil {
+    private int countCallGet = 0;
 
     @Cacheable("distance")
     public double calculate(PointInMap point1, PointInMap point2) {
-        final Logger logger = Logger.getLogger(DistanceUtil.class.getName());
-        logger.info("calculate ");
+        countCallGet++;
         return DistanceUtil.getDistanceInKiloMeters(point1, point2);
+    }
+
+    public int getCountCallGet() {
+        return countCallGet;
     }
 }
